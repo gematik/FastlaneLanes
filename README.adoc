@@ -1,0 +1,71 @@
+== Fastlane
+
+Fastlane actions and Fastfile templates for Gematiks Swift/iOS projects
+
+=== Usage
+
+To include the fastlane actions `Fastfile` default file simply execute the following steps in the target project:
+
+* Create a `fastlane` directory in the project root
+* Create a `Fastfile` in that directory
+* Add the following sample to the Fastfile:
+
+```
+import_from_git(
+  url: 'http://www.github.com/gematik/fastlane.git',
+  branch: 'master'
+)
+```
+
+* Configure the ENV variables in `fastlane/.env.default` (or env specific, e.g. ``.env.osx`):
+  - `G_PROJECT`: Name of the Xcode project. (E.g. GemCommonsKit.xcodeproj)
+  - [Optional] `G_BUILD_CONFIGURATION`: Debug|Release (default: Release)
+  - [Optional] `G_TEST_CONFIGURATION`: Debug|Release (default: Release)
+  - [Optional] `G_JAZZY_CONFIG`: Jazzy config file (default: .jazzy.yml)
+  - [Optional] `G_SWIFTLINT_CONFIG`: SwiftLint config file (default: .swiftlint.yml)
+  - [Optional] `G_CODE_ANALYSIS_FAIL_BUILD`: Bool, fail on lint errors (default: true)
+  - [Optional] `G_CODE_ANALYSIS_STRICT`: Bool, strict linting (default: true)
+  - [Optional] `G_BUILD_MAC_SKIP`: Bool, whether to skip build_mac lane (default: false)
+  - [Conditional] `G_MAC_SCHEMES`: List of scheme names. (mandatory when _G_BUILD_MAC_SKIP:false_)
+  - [Optional] `G_MAC_SDK`: SDK (default: macosx)
+  - [Optional] `G_MAC_DESTINATION`: destination platform (default: platform=macOS,arch=x86_64)
+  - [Optional] `G_TEST_MAC_SKIP`: Bool, whether to skip test_mac lane (default: false)
+  - [Conditional] `G_MAC_SCHEMES_TEST`: List of scheme names. (mandatory when _G_TEST_MAC_SKIP:false_)
+  - [Optional] `G_MAC_SDK_TEST`: SDK (default: macosx)
+  - [Optional] `G_MAC_DESTINATION_TEST`: destination platform (default: platform=macOS,arch=x86_64)
+  - [Optional] `G_BUILD_IOS_SKIP`: Bool, whether to skip build_ios lane (default: false)
+  - [Conditional] `G_IOS_SCHEMES`: List of scheme names. (mandatory when _G_BUILD_IOS_SKIP:false_)
+  - [Optional] `G_IOS_SDK`: SDK (default: iphonesimulator)
+  - [Optional] `G_IOS_DESTINATION`: destination platform (default: platform=iOS Simulator,name=iPhone 6s,OS=12.0)
+  - [Optional] `G_TEST_IOS_SKIP`: Bool, whether to skip test_ios lane (default: false)
+  - [Conditional] `G_IOS_SCHEMES_TEST`: List of scheme names. (mandatory when _G_TEST_IOS_SKIP:false_)
+  - [Optional] `G_IOS_SDK_TEST`: SDK (default: iphonesimulator)
+  - [Optional] `G_IOS_DESTINATION_TEST`: destination platform (default: platform=iOS Simulator,name=iPhone 6s,OS=12.0)
+  - [Optional] `G_XCCONFIG`: Path to Package.xcconfig if applicable
+  - [Optional] `G_GEN_XCODEPROJ_SKIP_PROJECT_RESOURCES`: Bool, true to skip this lane (default: true)
+  - [Conditional] `G_FIX_PROJECT_TARGET`: Name of the project target. (mandatory when _G_GEN_XCODEPROJ_SKIP_PROJECT_RESOURCES:false_)
+  - [Conditional] `G_FIX_PROJECT_GROUP`: Name of the project group. (mandatory when _G_GEN_XCODEPROJ_SKIP_PROJECT_RESOURCES:false_)
+  - [Conditional] `G_FIX_PROJECT_BUNDLE_RESOURCES`: List of bundles to add to the test target. (mandatory when _G_GEN_XCODEPROJ_SKIP_PROJECT_RESOURCES:false_)
+  - [Optional] `G_GEN_XCODEPROJ_SKIP_TEST_RESOURCES`: Bool, true to skip this lane (default: false)
+  - [Conditional] `G_FIX_TEST_TARGET`: Name of the project target. (mandatory when _G_GEN_XCODEPROJ_SKIP_TEST_RESOURCES:false_)
+  - [Conditional] `G_FIX_TEST_GROUP`: Name of the project group. (mandatory when _G_GEN_XCODEPROJ_SKIP_TEST_RESOURCES:false_)
+  - [Conditional] `G_FIX_TEST_BUNDLE_RESOURCES`: List of bundles to add to the test target. (mandatory when _G_GEN_XCODEPROJ_SKIP_TEST_RESOURCES:false_)
+
+**Note**: for detailed description of (all) the mentioned ENV variables and/or _fastlane_ commands, please find `fastlane/README.md` as well.
+
+* Test the configuration by running `$ fastlane cibuild [--env {environmentname}]` in the target repository root
+
+=== Terminal
+
+To eliminate the UTF-8 warning: _WARNING: fastlane requires your locale to be set to UTF-8_
+Add this somewhere to your bashrc. (E.g. `/usr/local/etc/bashrc`):
+
+```
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+```
+And make sure the `/etc/bashrc` links to this `/usr/local/etc/bashrc` like so:
+```
+[ -r "/usr/local/etc/bashrc" ] && . "/usr/local/etc/bashrc"
+```
