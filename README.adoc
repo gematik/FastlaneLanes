@@ -12,7 +12,7 @@ To include the fastlane actions `Fastfile` default file simply execute the follo
 
 ```
 import_from_git(
-  url: 'http://www.github.com/gematik/fastlane.git',
+  url: 'http://www.github.com/gematik/FastlaneLanes',
   branch: 'master'
 )
 ```
